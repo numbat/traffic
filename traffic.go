@@ -26,16 +26,16 @@ func runTrafficLights(waitGreen time.Duration, waitYellow time.Duration, totalRu
 	for {
 		select {
 		case <-yellowToRedChan:
-			lights.lights[lights.activeLight].colour = red
+			lights.CurrentLightToRed()
 			lights.NextLight()
-			lights.lights[lights.activeLight].colour = green
+			lights.CurrentLightToGreen()
 			fmt.Println(time.Now().String() + ": " + lights.String())
 			go func() {
 				time.Sleep(waitGreen)
 				greenToYellowChan <- true
 			}()
 		case <-greenToYellowChan:
-			lights.lights[lights.activeLight].colour = yellow
+			lights.CurrentLightToYellow()
 			fmt.Println(time.Now().String() + ": " + lights.String())
 			go func() {
 				time.Sleep(waitYellow)

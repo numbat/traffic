@@ -27,6 +27,18 @@ type Lights struct {
 	activeLight int
 }
 
+func (l Lights) CurrentLightToGreen() {
+	l.lights[l.activeLight].colour = green
+}
+
+func (l Lights) CurrentLightToYellow() {
+	l.lights[l.activeLight].colour = yellow
+}
+
+func (l Lights) CurrentLightToRed() {
+	l.lights[l.activeLight].colour = red
+}
+
 func (l *Lights) NextLight() {
 	l.activeLight = (l.activeLight + 1) % len(l.lights)
 }

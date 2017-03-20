@@ -29,6 +29,42 @@ func TestSetNextLightShouldLoop(t *testing.T) {
 	}
 }
 
+func TestSetCurrentLightColourGreen(t *testing.T) {
+	intersection := Lights{lights: []Light{
+		{"northsouth", red},
+		{"eastwest", red}}, activeLight: 0}
+
+	intersection.CurrentLightToGreen()
+
+	if c := intersection.lights[intersection.activeLight].colour; c != green {
+		t.Errorf("Expected active light to be green, but it was %d instead.", c)
+	}
+}
+
+func TestSetCurrentLightColourYellow(t *testing.T) {
+	intersection := Lights{lights: []Light{
+		{"northsouth", red},
+		{"eastwest", red}}, activeLight: 0}
+
+	intersection.CurrentLightToYellow()
+
+	if c := intersection.lights[intersection.activeLight].colour; c != yellow {
+		t.Errorf("Expected active light to be green, but it was %d instead.", c)
+	}
+}
+
+func TestSetCurrentLightColourRed(t *testing.T) {
+	intersection := Lights{lights: []Light{
+		{"northsouth", green},
+		{"eastwest", red}}, activeLight: 0}
+
+	intersection.CurrentLightToRed()
+
+	if c := intersection.lights[intersection.activeLight].colour; c != red {
+		t.Errorf("Expected active light to be green, but it was %d instead.", c)
+	}
+}
+
 func TestControllerString(t *testing.T) {
 	expected := "northsouth=red eastwest=red"
 	intersection := Lights{lights: []Light{
