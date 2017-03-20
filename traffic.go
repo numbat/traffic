@@ -13,6 +13,16 @@ const (
 	turnRed
 )
 
+// Traffic light simulation - run for 30min.
+func main() {
+	runTrafficLights(
+		time.Duration(time.Second*2),
+		time.Duration(time.Second*1),
+		time.Duration(time.Second*180))
+}
+
+// Run the simulation - pass in the duration to run, and
+// the waiting times for the green and yellow lights.
 func runTrafficLights(waitGreen time.Duration, waitYellow time.Duration, totalRuntime time.Duration) {
 	eventChan := make(chan Event)
 	finishChan := make(chan bool)
@@ -21,7 +31,7 @@ func runTrafficLights(waitGreen time.Duration, waitYellow time.Duration, totalRu
 		finishChan <- true
 	}()
 
-	lights := Lights{[]Light{
+	lights := Intersection{[]Light{
 		{"eastsouth", red},
 		{"westnorth", red}}, 0}
 
@@ -58,11 +68,4 @@ func runTrafficLights(waitGreen time.Duration, waitYellow time.Duration, totalRu
 			return
 		}
 	}
-}
-
-func main() {
-	runTrafficLights(
-		time.Duration(time.Second*2),
-		time.Duration(time.Second*1),
-		time.Duration(time.Second*180))
 }

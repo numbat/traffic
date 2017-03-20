@@ -6,7 +6,7 @@ import (
 )
 
 func TestSetNextLightShouldIncrement(t *testing.T) {
-	intersection := Lights{lights: []Light{
+	intersection := Intersection{lights: []Light{
 		{"northsouth", red},
 		{"eastwest", red}}}
 
@@ -18,7 +18,7 @@ func TestSetNextLightShouldIncrement(t *testing.T) {
 }
 
 func TestSetNextLightShouldLoop(t *testing.T) {
-	intersection := Lights{lights: []Light{
+	intersection := Intersection{lights: []Light{
 		{"northsouth", red},
 		{"eastwest", red}}, activeLight: 1}
 
@@ -30,7 +30,7 @@ func TestSetNextLightShouldLoop(t *testing.T) {
 }
 
 func TestSetCurrentLightColourGreen(t *testing.T) {
-	intersection := Lights{lights: []Light{
+	intersection := Intersection{lights: []Light{
 		{"northsouth", red},
 		{"eastwest", red}}, activeLight: 0}
 
@@ -42,7 +42,7 @@ func TestSetCurrentLightColourGreen(t *testing.T) {
 }
 
 func TestSetCurrentLightColourYellow(t *testing.T) {
-	intersection := Lights{lights: []Light{
+	intersection := Intersection{lights: []Light{
 		{"northsouth", red},
 		{"eastwest", red}}, activeLight: 0}
 
@@ -54,7 +54,7 @@ func TestSetCurrentLightColourYellow(t *testing.T) {
 }
 
 func TestSetCurrentLightColourRed(t *testing.T) {
-	intersection := Lights{lights: []Light{
+	intersection := Intersection{lights: []Light{
 		{"northsouth", green},
 		{"eastwest", red}}, activeLight: 0}
 
@@ -67,7 +67,7 @@ func TestSetCurrentLightColourRed(t *testing.T) {
 
 func TestControllerString(t *testing.T) {
 	expected := "northsouth=red eastwest=red"
-	intersection := Lights{lights: []Light{
+	intersection := Intersection{lights: []Light{
 		{"northsouth", red},
 		{"eastwest", red}}, activeLight: 0}
 
@@ -78,7 +78,7 @@ func TestControllerString(t *testing.T) {
 
 func TestIntersectionStringWhenLightsEmpty(t *testing.T) {
 	expected := ""
-	intersection := Lights{lights: []Light{}}
+	intersection := Intersection{lights: []Light{}}
 
 	if s := intersection.String(); s != expected {
 		t.Error(fmt.Sprintf("Expected output '%v' but got '%v'", expected, s))
