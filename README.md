@@ -1,5 +1,7 @@
 # Traffic Lights Simulator
 
+[![Build Status](https://travis-ci.org/numbat/traffic.svg?branch=master)](https://travis-ci.org/numbat/traffic)
+
 Simulates a set of traffic lights at an intersection. The traffic lights 
 are designated (N, S) and (E, W) like a compass. When switching from 
 green to red, the yellow light must be displayed for 30 seconds prior to 
