@@ -2,28 +2,7 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 )
-
-// There are three traffic light colours, as defined in the
-// constants: red, yellow and green.
-type Colour string
-
-const (
-	red    Colour = "red"
-	yellow Colour = "yellow"
-	green  Colour = "green"
-)
-
-// Lights have a direction and a current colour.
-type Light struct {
-	direction string
-	colour    Colour
-}
-
-func (l Light) String() string {
-	return fmt.Sprintf("%+v=%+v", l.direction, l.colour)
-}
 
 // Intersection is made up of lights, of which one is active.
 // Intersection is purely a passive model and is told what to

@@ -5,14 +5,6 @@ import (
 	"time"
 )
 
-type Event int
-
-const (
-	turnGreen Event = iota
-	turnYellow
-	turnRed
-)
-
 // Traffic light simulation - run for 30min.
 func main() {
 	runTrafficLights(
