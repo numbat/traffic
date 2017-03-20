@@ -14,7 +14,7 @@ func runTrafficLights(waitGreen time.Duration, waitYellow time.Duration, totalRu
 		finishChan <- true
 	}()
 
-	controller := LightsController{[]Light{
+	lights := Lights{[]Light{
 		{"eastsouth", red},
 		{"westnorth", red}}, 0}
 
@@ -26,17 +26,17 @@ func runTrafficLights(waitGreen time.Duration, waitYellow time.Duration, totalRu
 	for {
 		select {
 		case <-yellowToRedChan:
-			controller.lights[controller.activeLight].colour = red
-			controller.activeLight = (controller.activeLight + 1) % len(controller.lights)
-			controller.lights[controller.activeLight].colour = green
-			fmt.Println(time.Now().String() + ": " + controller.String())
+			lights.lights[lights.activeLight].colour = red
+			lights.NextLight()
+			lights.lights[lights.activeLight].colour = green
+			fmt.Println(time.Now().String() + ": " + lights.String())
 			go func() {
 				time.Sleep(waitGreen)
 				greenToYellowChan <- true
 			}()
 		case <-greenToYellowChan:
-			controller.lights[controller.activeLight].colour = yellow
-			fmt.Println(time.Now().String() + ": " + controller.String())
+			lights.lights[lights.activeLight].colour = yellow
+			fmt.Println(time.Now().String() + ": " + lights.String())
 			go func() {
 				time.Sleep(waitYellow)
 				yellowToRedChan <- true
