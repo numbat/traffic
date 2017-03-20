@@ -5,9 +5,16 @@ import (
 	"time"
 )
 
+type Event int
+
+const (
+	turnGreen Event = iota
+	turnYellow
+	turnRed
+)
+
 func runTrafficLights(waitGreen time.Duration, waitYellow time.Duration, totalRuntime time.Duration) {
-	yellowToRedChan := make(chan bool)
-	greenToYellowChan := make(chan bool)
+	eventChan := make(chan Event)
 	finishChan := make(chan bool)
 	go func() {
 		time.Sleep(totalRuntime)
@@ -19,28 +26,34 @@ func runTrafficLights(waitGreen time.Duration, waitYellow time.Duration, totalRu
 		{"westnorth", red}}, 0}
 
 	go func() {
-		time.Sleep(time.Second * 1)
-		yellowToRedChan <- true
+		eventChan <- turnGreen
 	}()
 
 	for {
 		select {
-		case <-yellowToRedChan:
-			lights.CurrentLightToRed()
-			lights.NextLight()
-			lights.CurrentLightToGreen()
-			fmt.Println(time.Now().String() + ": " + lights.String())
-			go func() {
-				time.Sleep(waitGreen)
-				greenToYellowChan <- true
-			}()
-		case <-greenToYellowChan:
-			lights.CurrentLightToYellow()
-			fmt.Println(time.Now().String() + ": " + lights.String())
-			go func() {
-				time.Sleep(waitYellow)
-				yellowToRedChan <- true
-			}()
+		case e := <-eventChan:
+			switch e {
+			case turnGreen:
+				lights.CurrentLightToGreen()
+				fmt.Println(time.Now().String() + ": " + lights.String())
+				go func() {
+					time.Sleep(waitGreen)
+					eventChan <- turnYellow
+				}()
+			case turnYellow:
+				lights.CurrentLightToYellow()
+				fmt.Println(time.Now().String() + ": " + lights.String())
+				go func() {
+					time.Sleep(waitYellow)
+					eventChan <- turnRed
+				}()
+			case turnRed:
+				lights.CurrentLightToRed()
+				lights.NextLight()
+				go func() {
+					eventChan <- turnGreen
+				}()
+			}
 		case <-finishChan:
 			return
 		}
