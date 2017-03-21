@@ -29,10 +29,10 @@ $ go install
 ```
 
 ## Running the Simulation
-The simulation can be run after building by going to ``$GOPATH`` and 
-executing ``bin/traffic``:
+The simulation can be run after building by executing 
+``$GOPATH/bin/traffic``:
 ```
-$ bin/traffic
+$ $GOPATH/bin/traffic
 ```
 Example outout for the default 30min runtime with 2 sets of traffic 
 lights:
