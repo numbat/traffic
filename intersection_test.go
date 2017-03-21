@@ -5,6 +5,26 @@ import (
 	"testing"
 )
 
+func TestSetNextLightWhenLightsEmptyShouldError(t *testing.T) {
+	lights := []Light{}
+
+	intersection := Intersection{lights, 0}
+
+	if err := intersection.NextLight(); err == nil {
+		t.Error("Expected error as no lights defined.")
+	}
+}
+
+func TestActiveLightDefaultsToZero(t *testing.T) {
+	intersection := Intersection{lights: []Light{
+		{"northsouth", red},
+		{"eastwest", red}}}
+
+	if active := intersection.activeLight; active != 0 {
+		t.Errorf("Expected active light to be 0, but it was %d instead.", active)
+	}
+}
+
 func TestSetNextLightShouldIncrement(t *testing.T) {
 	intersection := Intersection{lights: []Light{
 		{"northsouth", red},
@@ -29,43 +49,27 @@ func TestSetNextLightShouldLoop(t *testing.T) {
 	}
 }
 
-func TestSetCurrentLightColourGreen(t *testing.T) {
+func TestSetCurrentLightColour(t *testing.T) {
 	intersection := Intersection{lights: []Light{
 		{"northsouth", red},
 		{"eastwest", red}}, activeLight: 0}
 
-	intersection.CurrentLightToGreen()
+	intersection.SetCurrentLightColour(green)
 
 	if c := intersection.lights[intersection.activeLight].colour; c != green {
 		t.Errorf("Expected active light to be green, but it was %d instead.", c)
 	}
 }
 
-func TestSetCurrentLightColourYellow(t *testing.T) {
-	intersection := Intersection{lights: []Light{
-		{"northsouth", red},
-		{"eastwest", red}}, activeLight: 0}
+func TestSetCurrentLightColourWhenLightsEmptyShouldError(t *testing.T) {
+	intersection := Intersection{lights: []Light{}, activeLight: 0}
 
-	intersection.CurrentLightToYellow()
-
-	if c := intersection.lights[intersection.activeLight].colour; c != yellow {
-		t.Errorf("Expected active light to be green, but it was %d instead.", c)
+	if err := intersection.SetCurrentLightColour(green); err == nil {
+		t.Error("Expected error as no lights defined.")
 	}
 }
 
-func TestSetCurrentLightColourRed(t *testing.T) {
-	intersection := Intersection{lights: []Light{
-		{"northsouth", green},
-		{"eastwest", red}}, activeLight: 0}
-
-	intersection.CurrentLightToRed()
-
-	if c := intersection.lights[intersection.activeLight].colour; c != red {
-		t.Errorf("Expected active light to be green, but it was %d instead.", c)
-	}
-}
-
-func TestControllerString(t *testing.T) {
+func TestIntersectionString(t *testing.T) {
 	expected := "northsouth=red eastwest=red"
 	intersection := Intersection{lights: []Light{
 		{"northsouth", red},

@@ -34,6 +34,22 @@ executing ``bin/traffic``:
 ```
 $ bin/traffic
 ```
+Example outout for the default 30min runtime with 2 sets of traffic 
+lights:
+```
+2017-03-20 20:51:57.995280131 +1100 AEDT: northsouth=green eastwest=red
+2017-03-20 20:56:28.586938008 +1100 AEDT: northsouth=yellow eastwest=red
+2017-03-20 20:56:58.593530762 +1100 AEDT: northsouth=red eastwest=green
+2017-03-20 21:01:28.609086342 +1100 AEDT: northsouth=red eastwest=yellow
+2017-03-20 21:01:58.613615768 +1100 AEDT: northsouth=green eastwest=red
+2017-03-20 21:06:28.628319984 +1100 AEDT: northsouth=yellow eastwest=red
+2017-03-20 21:06:58.638982457 +1100 AEDT: northsouth=red eastwest=green
+2017-03-20 21:11:28.65796578 +1100 AEDT: northsouth=red eastwest=yellow
+2017-03-20 21:11:58.667827442 +1100 AEDT: northsouth=green eastwest=red
+2017-03-20 21:16:28.686941388 +1100 AEDT: northsouth=yellow eastwest=red
+2017-03-20 21:16:58.692991034 +1100 AEDT: northsouth=red eastwest=green
+2017-03-20 21:21:28.706819843 +1100 AEDT: northsouth=red eastwest=yellow
+```
 
 ## Tests
 You can run the tests with ``go test`` when in the source code directory:

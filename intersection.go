@@ -1,7 +1,7 @@
 package main
 
 import (
-	"bytes"
+	"errors"
 )
 
 // Intersection is made up of lights, of which one is active.
@@ -12,29 +12,27 @@ type Intersection struct {
 	activeLight int
 }
 
-func (l Intersection) CurrentLightToGreen() {
-	l.lights[l.activeLight].colour = green
+func (l Intersection) SetCurrentLightColour(c Colour) error {
+	if len(l.lights) == 0 {
+		return errors.New("Intersection: no traffic lights defined")
+	}
+	l.lights[l.activeLight].colour = c
+	return nil
 }
 
-func (l Intersection) CurrentLightToYellow() {
-	l.lights[l.activeLight].colour = yellow
-}
-
-func (l Intersection) CurrentLightToRed() {
-	l.lights[l.activeLight].colour = red
-}
-
-func (l *Intersection) NextLight() {
+func (l *Intersection) NextLight() error {
+	if len(l.lights) == 0 {
+		return errors.New("Intersection: no traffic lights defined")
+	}
 	l.activeLight = (l.activeLight + 1) % len(l.lights)
+	return nil
 }
 
 func (l Intersection) String() string {
-	var buffer bytes.Buffer
-	for i, light := range l.lights {
-		buffer.WriteString(light.String())
-		if i < len(l.lights)-1 {
-			buffer.WriteString(" ")
-		}
+	var out, delim string
+	for _, light := range l.lights {
+		out += delim + light.String()
+		delim = " "
 	}
-	return buffer.String()
+	return out
 }
